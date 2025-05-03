@@ -1,6 +1,6 @@
 "use client"
 
-import { ListTodo, Plus, Settings, Home, BookOpen } from "lucide-react"
+import { ListTodo, Settings, Home, BookOpen, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { TaskDialog } from "@/components/task-dialog"
@@ -30,14 +30,16 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
   }
 
   return (
-    <div className="flex items-center justify-between mb-6 bg-background border-b pb-4 w-full px-4">
+    <div className="flex items-center justify-between mb-6 bg-background border-b pb-4 w-full px-4 overflow-x-auto">
       <div className="flex items-center">
         <Link href="/" className="mr-2">
           <Button variant="ghost" size="icon" aria-label="Inicio">
             <Home className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold">AxBoard</h1>
+        <Link href="/">
+          <h1 className="text-2xl font-bold cursor-pointer hover:text-primary transition-colors">AxBoard</h1>
+        </Link>
       </div>
       <div className="flex items-center space-x-3">
         <Link href="/notes">
@@ -56,15 +58,6 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
         >
           <ListTodo className="h-6 w-6" />
         </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full"
-          aria-label="Crear nueva tarea"
-          onClick={() => setShowCreateDialog(true)}
-        >
-          <Plus className="h-6 w-6" />
-        </Button>
         {showAdminLink && (
           <Link href="/admin">
             <Button variant="outline" size="icon" className="rounded-full" aria-label="Panel de administración">
@@ -73,6 +66,16 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
           </Link>
         )}
         <ThemeToggle />
+        <Link href="/motivate-me">
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full bg-red-100 hover:bg-red-200 text-black border-red-500"
+            aria-label="Motivación"
+          >
+            <Zap className="h-4 w-4" />
+          </Button>
+        </Link>
       </div>
       <TaskDialog open={showCreateDialog} onOpenChange={setShowCreateDialog} onSave={handleSave} />
     </div>

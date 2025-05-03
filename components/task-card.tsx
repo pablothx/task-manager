@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import type { Task, User } from "@/lib/types"
 import { formatDistanceToNow } from "date-fns"
-import { Clock, CheckCircle2, Edit, Trash2, ChevronRight, Flag } from "lucide-react"
+import { Clock, CheckCircle2, ChevronRight, Flag } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { TaskDialog } from "@/components/task-dialog"
@@ -341,7 +341,7 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
         )}
 
         {/* Footer Section */}
-        <div className="flex justify-between items-center pt-2 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex justify-end items-center pt-2 border-t border-slate-100 dark:border-slate-800">
           {/* Due Date */}
           <div className="flex items-center text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800">
             <Clock className="h-3 w-3 mr-1 text-slate-500 dark:text-slate-400" />
@@ -350,24 +350,6 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
                 ? formatDistanceToNow(new Date(currentTask.dueDate), { addSuffix: true })
                 : "Sin fecha de vencimiento"}
             </span>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex space-x-1">
-            <button
-              onClick={handleEditClick}
-              className="p-1.5 rounded-full text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
-              aria-label="Editar tarea"
-            >
-              <Edit className="h-4 w-4" />
-            </button>
-            <button
-              onClick={handleDeleteClick}
-              className="p-1.5 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
-              aria-label="Eliminar tarea"
-            >
-              <Trash2 className="h-4 w-4" />
-            </button>
           </div>
         </div>
 
