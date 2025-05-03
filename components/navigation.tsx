@@ -1,6 +1,6 @@
 "use client"
 
-import { ListTodo, Settings, Home, BookOpen, Zap } from "lucide-react"
+import { ListTodo, Settings, BookOpen, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { TaskDialog } from "@/components/task-dialog"
@@ -32,11 +32,6 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
   return (
     <div className="flex items-center justify-between mb-6 bg-background border-b pb-4 w-full px-4 overflow-x-auto">
       <div className="flex items-center">
-        <Link href="/" className="mr-2">
-          <Button variant="ghost" size="icon" aria-label="Inicio">
-            <Home className="h-6 w-6" />
-          </Button>
-        </Link>
         <Link href="/">
           <h1 className="text-2xl font-bold cursor-pointer hover:text-primary transition-colors">AxBoard</h1>
         </Link>

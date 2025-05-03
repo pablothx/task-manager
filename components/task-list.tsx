@@ -180,8 +180,8 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
         </div>
       ) : (
         <div className="space-y-6">
-          {filteredTasks.map((task) => (
-            <TaskCard key={task.id} task={task} onUpdate={handleTaskUpdate} onDelete={handleTaskDelete} />
+          {filteredTasks.map((task, index) => (
+            <TaskCard key={task.id} task={task} onUpdate={handleTaskUpdate} onDelete={handleTaskDelete} index={index} />
           ))}
         </div>
       )}

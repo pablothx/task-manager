@@ -27,9 +27,24 @@ interface TaskCardProps {
   task: Task
   onUpdate: (task: Task) => void
   onDelete: (id: string) => void
+  index: number
 }
 
-export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
+// Array de colores para los bordes de las tarjetas
+const borderColors = [
+  "border-blue-400",
+  "border-green-400",
+  "border-purple-400",
+  "border-orange-400",
+  "border-pink-400",
+  "border-teal-400",
+  "border-indigo-400",
+  "border-yellow-400",
+  "border-red-400",
+  "border-cyan-400",
+]
+
+export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
   const [showDialog, setShowDialog] = useState(false)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
@@ -39,6 +54,11 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
   const [showDetailModal, setShowDetailModal] = useState(false)
   const [currentTask, setCurrentTask] = useState<Task>(task)
   const cardRef = useRef<HTMLDivElement>(null)
+
+  // Obtener color de borde basado en el índice
+  const getBorderColor = () => {
+    return borderColors[index % borderColors.length]
+  }
 
   // Update current task when the task prop changes
   useEffect(() => {
@@ -262,7 +282,8 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
       <div
         ref={cardRef}
         className={cn(
-          "relative p-4 rounded-lg border shadow-sm transition-all duration-200 cursor-pointer",
+          "relative p-4 rounded-lg border-2 shadow-sm transition-all duration-200 cursor-pointer",
+          getBorderColor(),
           getCardBorderClass(),
           currentTask.status === "done" ? "bg-slate-50/50 dark:bg-slate-800/50" : "bg-white dark:bg-slate-900",
         )}
