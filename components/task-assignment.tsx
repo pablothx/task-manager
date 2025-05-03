@@ -24,8 +24,8 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
       const demoTasks: Task[] = [
         {
           id: "1",
-          title: "Complete project proposal",
-          description: "Finish the draft and send for review",
+          title: "Completar propuesta de proyecto",
+          description: "Terminar el borrador y enviar para revisión",
           status: "in-progress",
           priority: "high",
           dueDate: new Date(Date.now() + 86400000).toISOString(),
@@ -34,8 +34,8 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
         },
         {
           id: "2",
-          title: "Weekly team meeting",
-          description: "Discuss project progress and next steps",
+          title: "Reunión semanal de equipo",
+          description: "Discutir el progreso del proyecto y los próximos pasos",
           status: "pending",
           priority: "high",
           dueDate: new Date(Date.now() + 172800000).toISOString(),
@@ -44,8 +44,8 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
         },
         {
           id: "3",
-          title: "Review client feedback",
-          description: "Go through comments and prepare responses",
+          title: "Revisar comentarios del cliente",
+          description: "Revisar los comentarios y preparar respuestas",
           status: "pending",
           priority: "medium",
           dueDate: new Date(Date.now() + 259200000).toISOString(),
@@ -54,8 +54,8 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
         },
         {
           id: "4",
-          title: "Update documentation",
-          description: "Add recent changes to the project documentation",
+          title: "Actualizar documentación",
+          description: "Añadir cambios recientes a la documentación del proyecto",
           status: "pending",
           priority: "low",
           dueDate: new Date(Date.now() + 345600000).toISOString(),
@@ -67,30 +67,30 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
       const demoUsers: User[] = [
         {
           id: "1",
-          name: "John Doe",
-          email: "john.doe@example.com",
+          name: "Juan Pérez",
+          email: "juan.perez@ejemplo.com",
           role: "admin",
           avatar: null,
-          department: "Engineering",
-          position: "Senior Developer",
+          department: "Ingeniería",
+          position: "Desarrollador Senior",
         },
         {
           id: "2",
-          name: "Jane Smith",
-          email: "jane.smith@example.com",
+          name: "María García",
+          email: "maria.garcia@ejemplo.com",
           role: "manager",
           avatar: null,
           department: "Marketing",
-          position: "Marketing Manager",
+          position: "Gerente de Marketing",
         },
         {
           id: "3",
-          name: "Bob Johnson",
-          email: "bob.johnson@example.com",
+          name: "Roberto Rodríguez",
+          email: "roberto.rodriguez@ejemplo.com",
           role: "user",
           avatar: null,
-          department: "Sales",
-          position: "Sales Representative",
+          department: "Ventas",
+          position: "Representante de Ventas",
         },
       ]
 
@@ -147,7 +147,7 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
   }
 
   if (loading) {
-    return <div className="text-center py-8">Loading tasks and users...</div>
+    return <div className="text-center py-8">Cargando tareas y usuarios...</div>
   }
 
   return (
@@ -180,7 +180,7 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
                     {getPriorityIcon(task.priority)}
                     <div className="text-xs">
                       {task.dueDate && (
-                        <span>Due {formatDistanceToNow(new Date(task.dueDate), { addSuffix: true })}</span>
+                        <span>Vence {formatDistanceToNow(new Date(task.dueDate), { addSuffix: true })}</span>
                       )}
                     </div>
                   </div>
@@ -188,7 +188,7 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">Assigned to:</span>
+                    <span className="text-sm font-medium">Asignada a:</span>
                     {task.assignedTo ? (
                       <div className="flex items-center gap-2">
                         <Avatar className="h-6 w-6">
@@ -199,7 +199,7 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
                       </div>
                     ) : (
                       <Badge variant="outline" className="text-muted-foreground">
-                        Unassigned
+                        Sin asignar
                       </Badge>
                     )}
                   </div>
@@ -209,10 +209,10 @@ export function TaskAssignment({ onAssignTask }: TaskAssignmentProps) {
                     onValueChange={(value) => handleAssignTask(task.id, value)}
                   >
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Assign to..." />
+                      <SelectValue placeholder="Asignar a..." />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="unassigned">Unassigned</SelectItem>
+                      <SelectItem value="unassigned">Sin asignar</SelectItem>
                       {users.map((user) => (
                         <SelectItem key={user.id} value={user.id}>
                           {user.name}

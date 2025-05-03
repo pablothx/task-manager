@@ -12,7 +12,7 @@ export function CreateNoteButton() {
 
   const handleSave = (note: Note) => {
     // In a real app, you would save this to your backend
-    console.log("New note created:", note)
+    console.log("Nueva nota creada:", note)
 
     // Close the dialog
     setShowDialog(false)
@@ -26,7 +26,7 @@ export function CreateNoteButton() {
       <button
         onClick={() => setShowDialog(true)}
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors"
-        aria-label="Create new note"
+        aria-label="Crear nueva nota"
       >
         <Plus className="h-6 w-6" />
       </button>

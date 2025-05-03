@@ -26,8 +26,9 @@ export function NotesList({ category }: NotesListProps) {
       const demoNotes: Note[] = [
         {
           id: "1",
-          title: "Project ideas for Q3",
-          content: "1. Mobile app redesign\n2. API performance optimization\n3. New dashboard features",
+          title: "Ideas de proyecto para Q3",
+          content:
+            "1. Rediseño de aplicación móvil\n2. Optimización de rendimiento de API\n3. Nuevas funciones del panel",
           category: "idea",
           priority: "high",
           createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
@@ -35,8 +36,9 @@ export function NotesList({ category }: NotesListProps) {
         },
         {
           id: "2",
-          title: "Weekly team meeting agenda",
-          content: "- Project status updates\n- Blockers discussion\n- Planning for next sprint",
+          title: "Agenda de reunión semanal del equipo",
+          content:
+            "- Actualizaciones de estado del proyecto\n- Discusión de bloqueadores\n- Planificación para el próximo sprint",
           category: "meeting",
           priority: "medium",
           createdAt: new Date(Date.now() - 86400000).toISOString(),
@@ -44,8 +46,8 @@ export function NotesList({ category }: NotesListProps) {
         },
         {
           id: "3",
-          title: "Follow up with clients",
-          content: "Need to contact:\n- ABC Corp about contract renewal\n- XYZ Inc about new requirements",
+          title: "Seguimiento con clientes",
+          content: "Necesito contactar:\n- ABC Corp sobre renovación de contrato\n- XYZ Inc sobre nuevos requisitos",
           category: "todo",
           priority: "high",
           createdAt: new Date().toISOString(),
@@ -53,8 +55,8 @@ export function NotesList({ category }: NotesListProps) {
         },
         {
           id: "4",
-          title: "Personal development goals",
-          content: "1. Complete React advanced course\n2. Read 'Clean Code'\n3. Practice TypeScript daily",
+          title: "Objetivos de desarrollo personal",
+          content: "1. Completar curso avanzado de React\n2. Leer 'Código Limpio'\n3. Practicar TypeScript diariamente",
           category: "personal",
           priority: "low",
           createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
@@ -129,7 +131,7 @@ export function NotesList({ category }: NotesListProps) {
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search notes..."
+            placeholder="Buscar notas..."
             className="pl-8"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -141,14 +143,14 @@ export function NotesList({ category }: NotesListProps) {
               <Select value={filterCategory} onValueChange={setFilterCategory}>
                 <SelectTrigger>
                   <Filter className="h-3.5 w-3.5 mr-2" />
-                  <SelectValue placeholder="Category" />
+                  <SelectValue placeholder="Categoría" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="todo">TODO</SelectItem>
+                  <SelectItem value="all">Todas las Categorías</SelectItem>
+                  <SelectItem value="todo">Pendiente</SelectItem>
                   <SelectItem value="idea">Idea</SelectItem>
-                  <SelectItem value="reminder">Reminder</SelectItem>
-                  <SelectItem value="meeting">Meeting</SelectItem>
+                  <SelectItem value="reminder">Recordatorio</SelectItem>
+                  <SelectItem value="meeting">Reunión</SelectItem>
                   <SelectItem value="personal">Personal</SelectItem>
                 </SelectContent>
               </Select>
@@ -158,13 +160,13 @@ export function NotesList({ category }: NotesListProps) {
               <Select value={filterPriority} onValueChange={setFilterPriority}>
                 <SelectTrigger>
                   <Filter className="h-3.5 w-3.5 mr-2" />
-                  <SelectValue placeholder="Priority" />
+                  <SelectValue placeholder="Prioridad" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Priorities</SelectItem>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="all">Todas las Prioridades</SelectItem>
+                  <SelectItem value="low">Baja</SelectItem>
+                  <SelectItem value="medium">Media</SelectItem>
+                  <SelectItem value="high">Alta</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -173,14 +175,14 @@ export function NotesList({ category }: NotesListProps) {
           {hasActiveFilters && (
             <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8">
               <X className="mr-2 h-3.5 w-3.5" />
-              Clear
+              Limpiar
             </Button>
           )}
         </div>
       </div>
 
       {filteredNotes.length === 0 ? (
-        <div className="text-center py-8 text-muted-foreground">No notes found</div>
+        <div className="text-center py-8 text-muted-foreground">No se encontraron notas</div>
       ) : (
         <div className="space-y-3">
           {filteredNotes.map((note) => (

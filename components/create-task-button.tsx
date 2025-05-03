@@ -12,7 +12,7 @@ export function CreateTaskButton() {
 
   const handleSave = (task: Task) => {
     // In a real app, you would save this to your backend
-    console.log("New task created:", task)
+    console.log("Nueva tarea creada:", task)
 
     // Close the dialog
     setShowDialog(false)
@@ -29,7 +29,7 @@ export function CreateTaskButton() {
       <button
         onClick={() => setShowDialog(true)}
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:bg-primary/90 transition-colors"
-        aria-label="Create new task"
+        aria-label="Crear nueva tarea"
       >
         <Plus className="h-6 w-6" />
       </button>

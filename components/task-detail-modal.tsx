@@ -47,30 +47,30 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
       const demoUsers: User[] = [
         {
           id: "1",
-          name: "John Doe",
-          email: "john.doe@example.com",
+          name: "Juan Pérez",
+          email: "juan.perez@ejemplo.com",
           role: "admin",
           avatar: null,
-          department: "Engineering",
-          position: "Senior Developer",
+          department: "Ingeniería",
+          position: "Desarrollador Senior",
         },
         {
           id: "2",
-          name: "Jane Smith",
-          email: "jane.smith@example.com",
+          name: "María García",
+          email: "maria.garcia@ejemplo.com",
           role: "manager",
           avatar: null,
           department: "Marketing",
-          position: "Marketing Manager",
+          position: "Gerente de Marketing",
         },
         {
           id: "3",
-          name: "Bob Johnson",
-          email: "bob.johnson@example.com",
+          name: "Roberto Rodríguez",
+          email: "roberto.rodriguez@ejemplo.com",
           role: "user",
           avatar: null,
-          department: "Sales",
-          position: "Sales Representative",
+          department: "Ventas",
+          position: "Representante de Ventas",
         },
       ]
 
@@ -125,7 +125,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
         return (
           <Badge variant="outline" className="bg-status-done-bg text-status-done-text border-status-done-border">
             <CheckCircle2 className="h-3 w-3 mr-1" />
-            Done
+            Completada
           </Badge>
         )
       case "in-progress":
@@ -135,7 +135,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
             className="bg-status-in-progress-bg text-status-in-progress-text border-status-in-progress-border"
           >
             <ArrowRightCircle className="h-3 w-3 mr-1" />
-            In Progress
+            En Progreso
           </Badge>
         )
       case "pending":
@@ -145,11 +145,11 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
             className="bg-status-pending-bg text-status-pending-text border-status-pending-border"
           >
             <Clock className="h-3 w-3 mr-1" />
-            Pending
+            Pendiente
           </Badge>
         )
       default:
-        return <Badge variant="outline">Unknown</Badge>
+        return <Badge variant="outline">Desconocido</Badge>
     }
   }
 
@@ -159,21 +159,21 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-high mr-1" />
-            <span className="text-sm font-medium text-priority-high">High Priority</span>
+            <span className="text-sm font-medium text-priority-high">Prioridad Alta</span>
           </div>
         )
       case "medium":
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-medium mr-1" />
-            <span className="text-sm font-medium text-priority-medium">Medium Priority</span>
+            <span className="text-sm font-medium text-priority-medium">Prioridad Media</span>
           </div>
         )
       case "low":
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-low mr-1" />
-            <span className="text-sm font-medium text-priority-low">Low Priority</span>
+            <span className="text-sm font-medium text-priority-low">Prioridad Baja</span>
           </div>
         )
       default:
@@ -184,7 +184,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[550px] max-h-[90vh] p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] p-0 overflow-hidden">
           <div className="max-h-[90vh] overflow-y-auto">
             <DialogHeader className="p-6 pb-2 sticky top-0 bg-background z-10">
               <div className="flex justify-between items-start">
@@ -204,7 +204,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
               {/* Description Section */}
               {currentTask.description && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Description</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Descripción</h3>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800 professional:bg-white/50 rounded-md">
                     <p className="text-sm whitespace-pre-wrap">{currentTask.description}</p>
                   </div>
@@ -214,7 +214,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
               {/* Assigned User Section */}
               {assignedUser && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Assigned To</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Asignada a</h3>
                   <div className="p-3 bg-blue-50 dark:bg-blue-900/20 professional:bg-blue-50/50 rounded-md flex items-center">
                     <Avatar className="h-8 w-8 mr-3">
                       <AvatarImage src={assignedUser.avatar || undefined} alt={assignedUser.name} />
@@ -231,7 +231,7 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
               {/* Image Section */}
               {currentTask.image && (
                 <div className="mb-6">
-                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Attachment</h3>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-2">Adjunto</h3>
                   <div className="rounded-md overflow-hidden border border-slate-200 dark:border-slate-700">
                     <Image
                       src={currentTask.image || "/placeholder.svg"}
@@ -246,41 +246,41 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
 
               {/* Due Date */}
               <div className="mb-6">
-                <h3 className="text-sm font-medium text-muted-foreground mb-2">Due Date</h3>
+                <h3 className="text-sm font-medium text-muted-foreground mb-2">Fecha de vencimiento</h3>
                 <div className="flex items-center px-3 py-2 rounded-md bg-slate-100 dark:bg-slate-800 professional:bg-white/50">
                   <Clock className="h-4 w-4 mr-2 text-slate-500 dark:text-slate-400" />
                   <span>
                     {currentTask.dueDate
                       ? formatDistanceToNow(new Date(currentTask.dueDate), { addSuffix: true })
-                      : "No due date"}
+                      : "Sin fecha de vencimiento"}
                   </span>
                 </div>
               </div>
             </div>
 
-            <DialogFooter className="flex justify-between p-6 pt-4 border-t border-slate-200 dark:border-slate-700 professional:bg-slate-50/50 sticky bottom-0 bg-background">
-              <div className="flex space-x-2">
+            <DialogFooter className="flex flex-col sm:flex-row gap-3 p-6 pt-4 border-t border-slate-200 dark:border-slate-700 professional:bg-slate-50/50 sticky bottom-0 bg-background">
+              <div className="flex space-x-2 w-full sm:w-auto justify-start">
                 <Button variant="outline" size="sm" onClick={handleEditClick}>
                   <Edit className="h-3.5 w-3.5 mr-1" />
-                  Edit
+                  Editar
                 </Button>
                 <Button variant="outline" size="sm" className="text-red-500" onClick={handleDeleteClick}>
                   <Trash2 className="h-3.5 w-3.5 mr-1" />
-                  Delete
+                  Eliminar
                 </Button>
               </div>
 
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
                 {currentTask.status !== "done" && (
                   <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={handleMarkAsDone}>
                     <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
-                    Mark as Done
+                    Marcar como Completada
                   </Button>
                 )}
                 {currentTask.status === "pending" && (
                   <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={handleMarkAsInProgress}>
                     <ArrowRightCircle className="h-3.5 w-3.5 mr-1" />
-                    Start Task
+                    Iniciar Tarea
                   </Button>
                 )}
               </div>
@@ -301,15 +301,16 @@ export function TaskDetailModal({ task, open, onOpenChange, onUpdate, onDelete }
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this task?</AlertDialogTitle>
+            <AlertDialogTitle>¿Estás seguro de que quieres eliminar esta tarea?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the task and remove its data from our servers.
+              Esta acción no se puede deshacer. Esto eliminará permanentemente la tarea y sus datos de nuestros
+              servidores.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-500 hover:bg-red-600">
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -32,13 +32,13 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
   const getCategoryBadge = (category: string) => {
     switch (category) {
       case "todo":
-        return <Badge className="bg-blue-500">TODO</Badge>
+        return <Badge className="bg-blue-500">Pendiente</Badge>
       case "idea":
         return <Badge className="bg-purple-500">Idea</Badge>
       case "reminder":
-        return <Badge className="bg-yellow-500">Reminder</Badge>
+        return <Badge className="bg-yellow-500">Recordatorio</Badge>
       case "meeting":
-        return <Badge className="bg-green-500">Meeting</Badge>
+        return <Badge className="bg-green-500">Reunión</Badge>
       case "personal":
         return <Badge className="bg-pink-500">Personal</Badge>
       default:
@@ -94,17 +94,17 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         <CardFooter className="px-4 py-3 border-t flex justify-between items-center bg-muted/20">
           <div className="flex items-center text-xs text-muted-foreground">
             <Calendar className="h-3 w-3 mr-1" />
-            {format(new Date(note.createdAt), "MMM d, yyyy")}
+            {format(new Date(note.createdAt), "d MMM, yyyy")}
           </div>
 
           <div className="flex space-x-2">
             <Button variant="ghost" size="sm" onClick={() => setShowEditDialog(true)}>
               <Edit className="h-3.5 w-3.5 mr-1" />
-              Edit
+              Editar
             </Button>
             <Button variant="ghost" size="sm" className="text-red-500" onClick={handleDelete}>
               <Trash2 className="h-3.5 w-3.5 mr-1" />
-              Delete
+              Eliminar
             </Button>
           </div>
         </CardFooter>
@@ -115,15 +115,15 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this note?</AlertDialogTitle>
+            <AlertDialogTitle>¿Estás seguro de que quieres eliminar esta nota?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the note.
+              Esta acción no se puede deshacer. Esto eliminará permanentemente la nota.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={confirmDelete} className="bg-red-500 hover:bg-red-600">
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

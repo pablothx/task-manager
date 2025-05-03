@@ -27,8 +27,8 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
       const demoTasks: Task[] = [
         {
           id: "1",
-          title: "Complete project proposal",
-          description: "Finish the draft and send for review",
+          title: "Completar propuesta de proyecto",
+          description: "Terminar el borrador y enviar para revisión",
           status: "in-progress",
           priority: "high",
           dueDate: new Date(Date.now() + 86400000).toISOString(),
@@ -37,8 +37,8 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
         },
         {
           id: "2",
-          title: "Weekly team meeting",
-          description: "Discuss project progress and next steps",
+          title: "Reunión semanal de equipo",
+          description: "Discutir el progreso del proyecto y los próximos pasos",
           status: "pending",
           priority: "high",
           dueDate: new Date(Date.now() + 172800000).toISOString(),
@@ -47,8 +47,8 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
         },
         {
           id: "3",
-          title: "Review client feedback",
-          description: "Go through comments and prepare responses",
+          title: "Revisar comentarios del cliente",
+          description: "Revisar los comentarios y preparar respuestas",
           status: "pending",
           priority: "medium",
           dueDate: new Date(Date.now() + 259200000).toISOString(),
@@ -57,8 +57,8 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
         },
         {
           id: "4",
-          title: "Update documentation",
-          description: "Add recent changes to the project documentation",
+          title: "Actualizar documentación",
+          description: "Añadir cambios recientes a la documentación del proyecto",
           status: "pending",
           priority: "low",
           dueDate: new Date(Date.now() + 345600000).toISOString(),
@@ -131,7 +131,11 @@ export function TaskList({ priority = false, showFilter = false, assignedToUserI
 
       {filteredTasks.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">
-          {assignedToUserId ? "No tasks assigned to you" : priority ? "No priority tasks" : "No tasks found"}
+          {assignedToUserId
+            ? "No hay tareas asignadas a ti"
+            : priority
+              ? "No hay tareas prioritarias"
+              : "No se encontraron tareas"}
         </div>
       ) : (
         <div className="space-y-3">

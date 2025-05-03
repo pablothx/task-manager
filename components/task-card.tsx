@@ -52,30 +52,30 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
       const demoUsers: User[] = [
         {
           id: "1",
-          name: "John Doe",
-          email: "john.doe@example.com",
+          name: "Juan Pérez",
+          email: "juan.perez@ejemplo.com",
           role: "admin",
           avatar: null,
-          department: "Engineering",
-          position: "Senior Developer",
+          department: "Ingeniería",
+          position: "Desarrollador Senior",
         },
         {
           id: "2",
-          name: "Jane Smith",
-          email: "jane.smith@example.com",
+          name: "María García",
+          email: "maria.garcia@ejemplo.com",
           role: "manager",
           avatar: null,
           department: "Marketing",
-          position: "Marketing Manager",
+          position: "Gerente de Marketing",
         },
         {
           id: "3",
-          name: "Bob Johnson",
-          email: "bob.johnson@example.com",
+          name: "Roberto Rodríguez",
+          email: "roberto.rodriguez@ejemplo.com",
           role: "user",
           avatar: null,
-          department: "Sales",
-          position: "Sales Representative",
+          department: "Ventas",
+          position: "Representante de Ventas",
         },
       ]
 
@@ -176,7 +176,7 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
         return (
           <Badge variant="outline" className="bg-status-done-bg text-status-done-text border-status-done-border">
             <CheckCircle2 className="h-3 w-3 mr-1" />
-            Done
+            Completada
           </Badge>
         )
       case "in-progress":
@@ -186,7 +186,7 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             className="bg-status-in-progress-bg text-status-in-progress-text border-status-in-progress-border"
           >
             <ChevronRight className="h-3 w-3 mr-1" />
-            In Progress
+            En Progreso
           </Badge>
         )
       case "pending":
@@ -196,11 +196,11 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             className="bg-status-pending-bg text-status-pending-text border-status-pending-border"
           >
             <Clock className="h-3 w-3 mr-1" />
-            Pending
+            Pendiente
           </Badge>
         )
       default:
-        return <Badge variant="outline">Unknown</Badge>
+        return <Badge variant="outline">Desconocido</Badge>
     }
   }
 
@@ -210,21 +210,21 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-high mr-1" />
-            <span className="text-xs font-medium text-priority-high">High Priority</span>
+            <span className="text-xs font-medium text-priority-high">Prioridad Alta</span>
           </div>
         )
       case "medium":
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-medium mr-1" />
-            <span className="text-xs font-medium text-priority-medium">Medium Priority</span>
+            <span className="text-xs font-medium text-priority-medium">Prioridad Media</span>
           </div>
         )
       case "low":
         return (
           <div className="flex items-center">
             <Flag className="h-4 w-4 text-priority-low mr-1" />
-            <span className="text-xs font-medium text-priority-low">Low Priority</span>
+            <span className="text-xs font-medium text-priority-low">Prioridad Baja</span>
           </div>
         )
       default:
@@ -321,7 +321,7 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
               <AvatarFallback>{assignedUser.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <p className="text-xs font-medium text-blue-700 dark:text-blue-300">Assigned to:</p>
+              <p className="text-xs font-medium text-blue-700 dark:text-blue-300">Asignada a:</p>
               <p className="text-sm text-blue-800 dark:text-blue-200">{assignedUser.name}</p>
             </div>
           </div>
@@ -348,7 +348,7 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             <span className="text-slate-600 dark:text-slate-300">
               {currentTask.dueDate
                 ? formatDistanceToNow(new Date(currentTask.dueDate), { addSuffix: true })
-                : "No due date"}
+                : "Sin fecha de vencimiento"}
             </span>
           </div>
 
@@ -357,14 +357,14 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
             <button
               onClick={handleEditClick}
               className="p-1.5 rounded-full text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
-              aria-label="Edit task"
+              aria-label="Editar tarea"
             >
               <Edit className="h-4 w-4" />
             </button>
             <button
               onClick={handleDeleteClick}
               className="p-1.5 rounded-full text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
-              aria-label="Delete task"
+              aria-label="Eliminar tarea"
             >
               <Trash2 className="h-4 w-4" />
             </button>
@@ -386,15 +386,16 @@ export function TaskCard({ task, onUpdate, onDelete }: TaskCardProps) {
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this task?</AlertDialogTitle>
+            <AlertDialogTitle>¿Estás seguro de que quieres eliminar esta tarea?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the task and remove its data from our servers.
+              Esta acción no se puede deshacer. Esto eliminará permanentemente la tarea y sus datos de nuestros
+              servidores.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-500 hover:bg-red-600">
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

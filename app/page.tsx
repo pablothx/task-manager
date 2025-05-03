@@ -20,8 +20,8 @@ export default function Home() {
 
       <Tabs defaultValue="my-tasks" className="mb-6">
         <TabsList className={`grid w-full grid-cols-2 ${isProfessional ? "professional-tabs" : ""}`}>
-          <TabsTrigger value="my-tasks">My Tasks</TabsTrigger>
-          <TabsTrigger value="all-tasks">All Tasks</TabsTrigger>
+          <TabsTrigger value="my-tasks">Mis Tareas</TabsTrigger>
+          <TabsTrigger value="all-tasks">Todas las Tareas</TabsTrigger>
         </TabsList>
         <TabsContent value="my-tasks">
           <TaskList assignedToUserId={currentUserId} showFilter={true} />

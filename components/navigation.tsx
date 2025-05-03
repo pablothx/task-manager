@@ -18,7 +18,7 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
 
   const handleSave = (task: Task) => {
     // In a real app, you would save this to your backend
-    console.log("New task created:", task)
+    console.log("Nueva tarea creada:", task)
 
     // Close the dialog
     setShowCreateDialog(false)
@@ -30,45 +30,45 @@ export function Navigation({ onTaskCreated, showAdminLink = true }: NavigationPr
   }
 
   return (
-    <div className="flex items-center justify-between mb-6 bg-background border-b pb-4">
+    <div className="flex items-center justify-between mb-6 bg-background border-b pb-4 w-full px-4">
       <div className="flex items-center">
         <Link href="/" className="mr-2">
-          <Button variant="ghost" size="icon" aria-label="Home">
-            <Home className="h-[1.2rem] w-[1.2rem]" />
+          <Button variant="ghost" size="icon" aria-label="Inicio">
+            <Home className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-2xl font-bold">Task Manager</h1>
+        <h1 className="text-2xl font-bold">AxBoard</h1>
       </div>
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center space-x-3">
         <Link href="/notes">
-          <Button variant="outline" size="icon" className="rounded-full" aria-label="Notes">
-            <BookOpen className="h-[1.2rem] w-[1.2rem]" />
+          <Button variant="outline" size="icon" className="rounded-full" aria-label="Notas">
+            <BookOpen className="h-6 w-6" />
           </Button>
         </Link>
         <Button
           variant="outline"
           size="icon"
           className="rounded-full"
-          aria-label="View all tasks"
+          aria-label="Ver todas las tareas"
           onClick={() =>
             window.scrollTo({ top: document.getElementById("all-tasks")?.offsetTop || 0, behavior: "smooth" })
           }
         >
-          <ListTodo className="h-[1.2rem] w-[1.2rem]" />
+          <ListTodo className="h-6 w-6" />
         </Button>
         <Button
           variant="outline"
           size="icon"
           className="rounded-full"
-          aria-label="Create new task"
+          aria-label="Crear nueva tarea"
           onClick={() => setShowCreateDialog(true)}
         >
-          <Plus className="h-[1.2rem] w-[1.2rem]" />
+          <Plus className="h-6 w-6" />
         </Button>
         {showAdminLink && (
           <Link href="/admin">
-            <Button variant="outline" size="icon" className="rounded-full" aria-label="Admin dashboard">
-              <Settings className="h-[1.2rem] w-[1.2rem]" />
+            <Button variant="outline" size="icon" className="rounded-full" aria-label="Panel de administración">
+              <Settings className="h-6 w-6" />
             </Button>
           </Link>
         )}

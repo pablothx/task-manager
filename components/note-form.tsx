@@ -73,61 +73,61 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{isNewNote ? "Create New Note" : "Edit Note"}</DialogTitle>
+            <DialogTitle>{isNewNote ? "Crear Nueva Nota" : "Editar Nota"}</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Note title"
+                placeholder="Título de la nota"
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category">Categoría</Label>
                 <Select value={category} onValueChange={setCategory}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder="Seleccionar categoría" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="todo">TODO</SelectItem>
+                    <SelectItem value="todo">Pendiente</SelectItem>
                     <SelectItem value="idea">Idea</SelectItem>
-                    <SelectItem value="reminder">Reminder</SelectItem>
-                    <SelectItem value="meeting">Meeting</SelectItem>
+                    <SelectItem value="reminder">Recordatorio</SelectItem>
+                    <SelectItem value="meeting">Reunión</SelectItem>
                     <SelectItem value="personal">Personal</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label>Priority</Label>
+                <Label>Prioridad</Label>
                 <Select value={priority} onValueChange={setPriority}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select priority" />
+                    <SelectValue placeholder="Seleccionar prioridad" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="low">
                       <div className="flex items-center">
                         <Flag className="h-4 w-4 text-priority-low mr-2" />
-                        Low
+                        Baja
                       </div>
                     </SelectItem>
                     <SelectItem value="medium">
                       <div className="flex items-center">
                         <Flag className="h-4 w-4 text-priority-medium mr-2" />
-                        Medium
+                        Media
                       </div>
                     </SelectItem>
                     <SelectItem value="high">
                       <div className="flex items-center">
                         <Flag className="h-4 w-4 text-priority-high mr-2" />
-                        High
+                        Alta
                       </div>
                     </SelectItem>
                   </SelectContent>
@@ -136,12 +136,12 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
+              <Label htmlFor="content">Contenido</Label>
               <Textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="Write your note here..."
+                placeholder="Escribe tu nota aquí..."
                 rows={8}
                 required
               />
@@ -149,9 +149,9 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
 
             <DialogFooter className="flex justify-between">
               <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
+                Cancelar
               </Button>
-              <Button type="submit">{isNewNote ? "Create Note" : "Save Changes"}</Button>
+              <Button type="submit">{isNewNote ? "Crear Nota" : "Guardar Cambios"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -160,12 +160,12 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
       <AlertDialog open={showCancelAlert} onOpenChange={setShowCancelAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
-            <AlertDialogDescription>Any unsaved changes will be lost.</AlertDialogDescription>
+            <AlertDialogTitle>¿Estás seguro de que quieres cancelar?</AlertDialogTitle>
+            <AlertDialogDescription>Se perderán todos los cambios no guardados.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>No, continue editing</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancel}>Yes, cancel</AlertDialogAction>
+            <AlertDialogCancel>No, continuar editando</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmCancel}>Sí, cancelar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

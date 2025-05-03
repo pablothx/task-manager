@@ -10,14 +10,14 @@ export default function NotesPage() {
     <main className="container max-w-md mx-auto px-4 py-6">
       <Navigation />
 
-      <h1 className="text-2xl font-bold mb-4">Notes</h1>
+      <h1 className="text-2xl font-bold mb-4">Notas</h1>
 
       <Tabs defaultValue="all" className="mb-6">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="todo">TODO</TabsTrigger>
+          <TabsTrigger value="all">Todas</TabsTrigger>
+          <TabsTrigger value="todo">Pendientes</TabsTrigger>
           <TabsTrigger value="idea">Ideas</TabsTrigger>
-          <TabsTrigger value="meeting">Meetings</TabsTrigger>
+          <TabsTrigger value="meeting">Reuniones</TabsTrigger>
           <TabsTrigger value="personal">Personal</TabsTrigger>
         </TabsList>
         <TabsContent value="all">

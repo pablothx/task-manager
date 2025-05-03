@@ -59,7 +59,7 @@ export function TaskFilter({ onFilterChange }: TaskFilterProps) {
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search tasks..."
+          placeholder="Buscar tareas..."
           className="pl-8"
           value={searchTerm}
           onChange={handleSearchChange}
@@ -71,15 +71,15 @@ export function TaskFilter({ onFilterChange }: TaskFilterProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8">
                 <Filter className="mr-2 h-3.5 w-3.5" />
-                Status
+                Estado
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuRadioGroup value={status} onValueChange={handleStatusChange}>
-                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="pending">Pending</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="in-progress">In Progress</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="done">Done</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="all">Todos</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="pending">Pendiente</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="in-progress">En Progreso</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="done">Completado</DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -88,15 +88,15 @@ export function TaskFilter({ onFilterChange }: TaskFilterProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm" className="h-8">
                 <Filter className="mr-2 h-3.5 w-3.5" />
-                Priority
+                Prioridad
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuRadioGroup value={priority} onValueChange={handlePriorityChange}>
-                <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="low">Low</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="medium">Medium</DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="high">High</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="all">Todas</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="low">Baja</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="medium">Media</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="high">Alta</DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -105,7 +105,7 @@ export function TaskFilter({ onFilterChange }: TaskFilterProps) {
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={clearFilters} className="h-8">
             <X className="mr-2 h-3.5 w-3.5" />
-            Clear
+            Limpiar
           </Button>
         )}
       </div>

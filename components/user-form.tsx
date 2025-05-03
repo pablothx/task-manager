@@ -90,7 +90,7 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{isNewUser ? "Add New User" : "Edit User"}</DialogTitle>
+            <DialogTitle>{isNewUser ? "Añadir Nuevo Usuario" : "Editar Usuario"}</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
@@ -99,7 +99,7 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
                 <div className="relative h-24 w-24 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700">
                   <Image
                     src={avatar || "/placeholder.svg?height=96&width=96"}
-                    alt="User avatar"
+                    alt="Avatar de usuario"
                     width={96}
                     height={96}
                     className="object-cover"
@@ -108,12 +108,12 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
                 <div className="flex items-center space-x-2">
                   <Button type="button" variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
                     <Upload className="mr-2 h-3 w-3" />
-                    Upload
+                    Subir
                   </Button>
                   {avatar && (
                     <Button type="button" variant="outline" size="sm" onClick={handleRemoveAvatar}>
                       <X className="mr-2 h-3 w-3" />
-                      Remove
+                      Eliminar
                     </Button>
                   )}
                   <input
@@ -128,24 +128,24 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
 
               <div className="flex-1 space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name">Nombre Completo</Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="Juan Pérez"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Correo Electrónico</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="john.doe@example.com"
+                    placeholder="juan.perez@ejemplo.com"
                     required
                   />
                 </div>
@@ -154,52 +154,52 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
+                <Label htmlFor="role">Rol</Label>
                 <Select value={role} onValueChange={setRole}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select role" />
+                    <SelectValue placeholder="Seleccionar rol" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="manager">Manager</SelectItem>
-                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="admin">Administrador</SelectItem>
+                    <SelectItem value="manager">Gerente</SelectItem>
+                    <SelectItem value="user">Usuario</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="department">Department</Label>
+                <Label htmlFor="department">Departamento</Label>
                 <Select value={department} onValueChange={setDepartment}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select department" />
+                    <SelectValue placeholder="Seleccionar departamento" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="engineering">Engineering</SelectItem>
+                    <SelectItem value="engineering">Ingeniería</SelectItem>
                     <SelectItem value="marketing">Marketing</SelectItem>
-                    <SelectItem value="sales">Sales</SelectItem>
-                    <SelectItem value="hr">Human Resources</SelectItem>
-                    <SelectItem value="finance">Finance</SelectItem>
-                    <SelectItem value="operations">Operations</SelectItem>
+                    <SelectItem value="sales">Ventas</SelectItem>
+                    <SelectItem value="hr">Recursos Humanos</SelectItem>
+                    <SelectItem value="finance">Finanzas</SelectItem>
+                    <SelectItem value="operations">Operaciones</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="position">Position</Label>
+              <Label htmlFor="position">Cargo</Label>
               <Input
                 id="position"
                 value={position}
                 onChange={(e) => setPosition(e.target.value)}
-                placeholder="Senior Developer"
+                placeholder="Desarrollador Senior"
               />
             </div>
 
             <DialogFooter className="flex justify-between">
               <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
+                Cancelar
               </Button>
-              <Button type="submit">{isNewUser ? "Add User" : "Save Changes"}</Button>
+              <Button type="submit">{isNewUser ? "Añadir Usuario" : "Guardar Cambios"}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -208,12 +208,12 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
       <AlertDialog open={showCancelAlert} onOpenChange={setShowCancelAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
-            <AlertDialogDescription>Any unsaved changes will be lost.</AlertDialogDescription>
+            <AlertDialogTitle>¿Estás seguro de que quieres cancelar?</AlertDialogTitle>
+            <AlertDialogDescription>Se perderán todos los cambios no guardados.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>No, continue editing</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancel}>Yes, cancel</AlertDialogAction>
+            <AlertDialogCancel>No, continuar editando</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmCancel}>Sí, cancelar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

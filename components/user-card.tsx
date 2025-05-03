@@ -32,13 +32,13 @@ export function UserCard({ user, onUpdate, onDelete }: UserCardProps) {
   const getRoleBadge = (role: string) => {
     switch (role) {
       case "admin":
-        return <Badge className="bg-red-500">Admin</Badge>
+        return <Badge className="bg-red-500">Administrador</Badge>
       case "manager":
-        return <Badge className="bg-blue-500">Manager</Badge>
+        return <Badge className="bg-blue-500">Gerente</Badge>
       case "user":
-        return <Badge className="bg-green-500">User</Badge>
+        return <Badge className="bg-green-500">Usuario</Badge>
       default:
-        return <Badge>Unknown</Badge>
+        return <Badge>Desconocido</Badge>
     }
   }
 
@@ -70,23 +70,23 @@ export function UserCard({ user, onUpdate, onDelete }: UserCardProps) {
 
               <div className="mt-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Department:</span>
-                  <span className="font-medium">{user.department || "Not assigned"}</span>
+                  <span className="text-muted-foreground">Departamento:</span>
+                  <span className="font-medium">{user.department || "No asignado"}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Position:</span>
-                  <span className="font-medium">{user.position || "Not assigned"}</span>
+                  <span className="text-muted-foreground">Cargo:</span>
+                  <span className="font-medium">{user.position || "No asignado"}</span>
                 </div>
               </div>
 
               <div className="mt-4 flex justify-end space-x-2">
                 <Button variant="outline" size="sm" onClick={() => setShowEditDialog(true)}>
                   <Edit className="h-3.5 w-3.5 mr-1" />
-                  Edit
+                  Editar
                 </Button>
                 <Button variant="outline" size="sm" className="text-red-500" onClick={() => setShowDeleteAlert(true)}>
                   <Trash2 className="h-3.5 w-3.5 mr-1" />
-                  Delete
+                  Eliminar
                 </Button>
               </div>
             </div>
@@ -99,16 +99,16 @@ export function UserCard({ user, onUpdate, onDelete }: UserCardProps) {
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this user?</AlertDialogTitle>
+            <AlertDialogTitle>¿Estás seguro de que quieres eliminar este usuario?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user account and remove their data from our
-              servers.
+              Esta acción no se puede deshacer. Esto eliminará permanentemente la cuenta de usuario y eliminará sus
+              datos de nuestros servidores.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction onClick={() => onDelete(user.id)} className="bg-red-500 hover:bg-red-600">
-              Delete
+              Eliminar
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

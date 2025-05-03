@@ -9,6 +9,7 @@ import { TaskAssignment } from "@/components/task-assignment"
 import { Plus, Home } from "lucide-react"
 import Link from "next/link"
 import type { User } from "@/lib/types"
+import { Navigation } from "@/components/navigation"
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([])
@@ -21,30 +22,30 @@ export default function AdminPage() {
       const demoUsers: User[] = [
         {
           id: "1",
-          name: "John Doe",
-          email: "john.doe@example.com",
+          name: "Juan Pérez",
+          email: "juan.perez@ejemplo.com",
           role: "admin",
           avatar: null,
-          department: "Engineering",
-          position: "Senior Developer",
+          department: "Ingeniería",
+          position: "Desarrollador Senior",
         },
         {
           id: "2",
-          name: "Jane Smith",
-          email: "jane.smith@example.com",
+          name: "María García",
+          email: "maria.garcia@ejemplo.com",
           role: "manager",
           avatar: null,
           department: "Marketing",
-          position: "Marketing Manager",
+          position: "Gerente de Marketing",
         },
         {
           id: "3",
-          name: "Bob Johnson",
-          email: "bob.johnson@example.com",
+          name: "Roberto Rodríguez",
+          email: "roberto.rodriguez@ejemplo.com",
           role: "user",
           avatar: null,
-          department: "Sales",
-          position: "Sales Representative",
+          department: "Ventas",
+          position: "Representante de Ventas",
         },
       ]
       setUsers(demoUsers)
@@ -75,11 +76,12 @@ export default function AdminPage() {
 
   const handleAssignTask = (taskId: string, userId: string) => {
     // In a real app, you would update this in your backend
-    console.log(`Assigned task ${taskId} to user ${userId}`)
+    console.log(`Tarea ${taskId} asignada al usuario ${userId}`)
   }
 
   return (
     <main className="container max-w-4xl mx-auto px-4 py-6">
+      <Navigation showAdminLink={false} />
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <Link href="/" className="mr-4">
@@ -87,27 +89,27 @@ export default function AdminPage() {
               <Home className="h-5 w-5" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold">Panel de Administración</h1>
         </div>
       </div>
 
       <Tabs defaultValue="users">
         <TabsList className="grid w-full grid-cols-2 mb-8">
-          <TabsTrigger value="users">User Management</TabsTrigger>
-          <TabsTrigger value="tasks">Task Assignment</TabsTrigger>
+          <TabsTrigger value="users">Gestión de Usuarios</TabsTrigger>
+          <TabsTrigger value="tasks">Asignación de Tareas</TabsTrigger>
         </TabsList>
 
         <TabsContent value="users" className="space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">Users</h2>
+            <h2 className="text-xl font-semibold">Usuarios</h2>
             <Button onClick={() => setShowUserForm(true)}>
               <Plus className="h-4 w-4 mr-2" />
-              Add User
+              Añadir Usuario
             </Button>
           </div>
 
           {loading ? (
-            <div className="text-center py-8">Loading users...</div>
+            <div className="text-center py-8">Cargando usuarios...</div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               {users.map((user) => (
@@ -119,8 +121,10 @@ export default function AdminPage() {
 
         <TabsContent value="tasks">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Task Assignment</h2>
-            <p className="text-muted-foreground mb-4">Assign tasks to users by selecting from the dropdown menu.</p>
+            <h2 className="text-xl font-semibold">Asignación de Tareas</h2>
+            <p className="text-muted-foreground mb-4">
+              Asigna tareas a los usuarios seleccionando del menú desplegable.
+            </p>
 
             <TaskAssignment onAssignTask={handleAssignTask} />
           </div>

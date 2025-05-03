@@ -69,30 +69,30 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
     const demoUsers: User[] = [
       {
         id: "1",
-        name: "John Doe",
-        email: "john.doe@example.com",
+        name: "Juan Pérez",
+        email: "juan.perez@ejemplo.com",
         role: "admin",
         avatar: null,
-        department: "Engineering",
-        position: "Senior Developer",
+        department: "Ingeniería",
+        position: "Desarrollador Senior",
       },
       {
         id: "2",
-        name: "Jane Smith",
-        email: "jane.smith@example.com",
+        name: "María García",
+        email: "maria.garcia@ejemplo.com",
         role: "manager",
         avatar: null,
         department: "Marketing",
-        position: "Marketing Manager",
+        position: "Gerente de Marketing",
       },
       {
         id: "3",
-        name: "Bob Johnson",
-        email: "bob.johnson@example.com",
+        name: "Roberto Rodríguez",
+        email: "roberto.rodriguez@ejemplo.com",
         role: "user",
         avatar: null,
-        department: "Sales",
-        position: "Sales Representative",
+        department: "Ventas",
+        position: "Representante de Ventas",
       },
     ]
     setUsers(demoUsers)
@@ -163,34 +163,34 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{isNewTask ? "Create New Task" : "Edit Task"}</DialogTitle>
+            <DialogTitle>{isNewTask ? "Crear Nueva Tarea" : "Editar Tarea"}</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Title</Label>
+              <Label htmlFor="title">Título</Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Task title"
+                placeholder="Título de la tarea"
                 required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">Descripción</Label>
               <Textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Task description"
+                placeholder="Descripción de la tarea"
                 rows={3}
               />
             </div>
 
             <div className="space-y-2">
-              <Label>Status</Label>
+              <Label>Estado</Label>
               <div className="grid grid-cols-3 gap-2">
                 <Button
                   type="button"
@@ -205,7 +205,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <Clock
                     className={`h-6 w-6 mb-1 ${status === "pending" ? "text-status-pending-text" : "text-slate-500"}`}
                   />
-                  <span className="text-xs">Pending</span>
+                  <span className="text-xs">Pendiente</span>
                 </Button>
                 <Button
                   type="button"
@@ -220,7 +220,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <ArrowRightCircle
                     className={`h-6 w-6 mb-1 ${status === "in-progress" ? "text-status-in-progress-text" : "text-blue-500"}`}
                   />
-                  <span className="text-xs">In Progress</span>
+                  <span className="text-xs">En Progreso</span>
                 </Button>
                 <Button
                   type="button"
@@ -235,13 +235,13 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <CheckCircle
                     className={`h-6 w-6 mb-1 ${status === "done" ? "text-status-done-text" : "text-green-500"}`}
                   />
-                  <span className="text-xs">Done</span>
+                  <span className="text-xs">Completada</span>
                 </Button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label>Priority</Label>
+              <Label>Prioridad</Label>
               <div className="grid grid-cols-3 gap-2">
                 <Button
                   type="button"
@@ -252,7 +252,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   onClick={() => setPriority("low")}
                 >
                   <Flag className={`h-6 w-6 mb-1 ${priority === "low" ? "text-priority-low" : "text-priority-low"}`} />
-                  <span className="text-xs">Low</span>
+                  <span className="text-xs">Baja</span>
                 </Button>
                 <Button
                   type="button"
@@ -267,7 +267,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <Flag
                     className={`h-6 w-6 mb-1 ${priority === "medium" ? "text-priority-medium" : "text-priority-medium"}`}
                   />
-                  <span className="text-xs">Medium</span>
+                  <span className="text-xs">Media</span>
                 </Button>
                 <Button
                   type="button"
@@ -280,19 +280,19 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <Flag
                     className={`h-6 w-6 mb-1 ${priority === "high" ? "text-priority-high" : "text-priority-high"}`}
                   />
-                  <span className="text-xs">High</span>
+                  <span className="text-xs">Alta</span>
                 </Button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label>Assigned To</Label>
+              <Label>Asignada a</Label>
               <Select value={assignedTo || ""} onValueChange={setAssignedTo}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select user" />
+                  <SelectValue placeholder="Seleccionar usuario" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="unassigned">Unassigned</SelectItem>
+                  <SelectItem value="unassigned">Sin asignar</SelectItem>
                   {users.map((user) => (
                     <SelectItem key={user.id} value={user.id}>
                       {user.name} ({user.department})
@@ -303,12 +303,12 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
             </div>
 
             <div className="space-y-2">
-              <Label>Due Date</Label>
+              <Label>Fecha de vencimiento</Label>
               <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full justify-start text-left font-normal">
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {dueDate ? format(dueDate, "PPP") : "Select a date"}
+                    {dueDate ? format(dueDate, "PPP") : "Seleccionar una fecha"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
@@ -326,7 +326,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
             </div>
 
             <div className="space-y-2">
-              <Label>Image (Optional)</Label>
+              <Label>Imagen (Opcional)</Label>
               <div className="flex items-center space-x-2">
                 <Button
                   type="button"
@@ -335,7 +335,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   className="flex-1"
                 >
                   <Upload className="mr-2 h-4 w-4" />
-                  Upload Image
+                  Subir Imagen
                 </Button>
                 {image && (
                   <Button type="button" variant="outline" onClick={handleRemoveImage} size="icon">
@@ -355,7 +355,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                 <div className="mt-2 relative rounded-md overflow-hidden border border-slate-200 dark:border-slate-700">
                   <Image
                     src={image || "/placeholder.svg"}
-                    alt="Task image"
+                    alt="Imagen de la tarea"
                     width={300}
                     height={200}
                     className="w-full h-auto object-cover"
@@ -366,13 +366,13 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
 
             <DialogFooter className="flex justify-between mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
               <Button type="button" variant="outline" onClick={handleCancel}>
-                Cancel
+                Cancelar
               </Button>
               <Button
                 type="submit"
                 className="professional:bg-gradient-to-b professional:from-primary professional:to-primary/90"
               >
-                {isNewTask ? "Create Task" : "Save Changes"}
+                {isNewTask ? "Crear Tarea" : "Guardar Cambios"}
               </Button>
             </DialogFooter>
           </form>
@@ -382,12 +382,12 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
       <AlertDialog open={showCancelAlert} onOpenChange={setShowCancelAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to cancel?</AlertDialogTitle>
-            <AlertDialogDescription>Any unsaved changes will be lost.</AlertDialogDescription>
+            <AlertDialogTitle>¿Estás seguro de que quieres cancelar?</AlertDialogTitle>
+            <AlertDialogDescription>Se perderán todos los cambios no guardados.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>No, continue editing</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmCancel}>Yes, cancel</AlertDialogAction>
+            <AlertDialogCancel>No, continuar editando</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmCancel}>Sí, cancelar</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
