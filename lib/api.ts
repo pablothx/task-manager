@@ -1,5 +1,3 @@
-// API utility functions for tasks and notes
-
 const API_BASE_URL = "http://localhost:8080"
 
 // Mock data for fallback

@@ -11,7 +11,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "AxBoard",
   description: "Una aplicación de gestión de tareas adaptada para móviles",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
