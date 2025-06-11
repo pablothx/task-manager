@@ -4,12 +4,13 @@ import type React from "react"
 
 import { useState, useRef } from "react"
 import type { User } from "@/lib/types"
+import { userApi } from "@/lib/api"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Upload, X } from "lucide-react"
+import { Upload, X, AlertCircle } from "lucide-react"
 import Image from "next/image"
 import {
   AlertDialog,
@@ -21,6 +22,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface UserFormProps {
   user?: User
@@ -39,23 +41,41 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
   const [position, setPosition] = useState(user?.position || "")
   const [avatar, setAvatar] = useState<string | null>(user?.avatar || null)
   const [showCancelAlert, setShowCancelAlert] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-    const updatedUser: User = {
-      id: user?.id || Date.now().toString(),
-      name,
-      email,
-      role,
-      department,
-      position,
-      avatar,
+    try {
+      const userData = {
+        name,
+        email,
+        role,
+        department,
+        position,
+        avatar,
+      }
+
+      let savedUser: User
+      if (isNewUser) {
+        savedUser = await userApi.createUser(userData)
+      } else {
+        savedUser = await userApi.updateUser(user!.id, userData)
+      }
+
+      onSave(savedUser)
+      onOpenChange(false)
+    } catch (err) {
+      setError(isNewUser ? "Error al crear el usuario." : "Error al actualizar el usuario.")
+      console.error("Error saving user:", err)
+    } finally {
+      setLoading(false)
     }
-
-    onSave(updatedUser)
   }
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +112,13 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
           <DialogHeader>
             <DialogTitle>{isNewUser ? "Añadir Nuevo Usuario" : "Editar Usuario"}</DialogTitle>
           </DialogHeader>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="flex flex-col md:flex-row gap-4 items-start">
@@ -196,10 +223,12 @@ export function UserForm({ user, open, onOpenChange, onSave }: UserFormProps) {
             </div>
 
             <DialogFooter className="flex justify-between">
-              <Button type="button" variant="outline" onClick={handleCancel}>
+              <Button type="button" variant="outline" onClick={handleCancel} disabled={loading}>
                 Cancelar
               </Button>
-              <Button type="submit">{isNewUser ? "Añadir Usuario" : "Guardar Cambios"}</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Guardando..." : isNewUser ? "Añadir Usuario" : "Guardar Cambios"}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

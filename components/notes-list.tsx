@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react"
 import { NoteCard } from "@/components/note-card"
 import type { Note } from "@/lib/types"
+import { noteApi } from "@/lib/api"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import { Search, Filter, X } from "lucide-react"
+import { Search, Filter, X, AlertCircle } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface NotesListProps {
   category?: string
@@ -16,65 +18,54 @@ interface NotesListProps {
 export function NotesList({ category }: NotesListProps) {
   const [notes, setNotes] = useState<Note[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [filterCategory, setFilterCategory] = useState<string>("all")
   const [filterPriority, setFilterPriority] = useState<string>("all")
 
   useEffect(() => {
-    // Simulate fetching notes from an API
-    setTimeout(() => {
-      const demoNotes: Note[] = [
-        {
-          id: "1",
-          title: "Ideas de proyecto para Q3",
-          content:
-            "1. Rediseño de aplicación móvil\n2. Optimización de rendimiento de API\n3. Nuevas funciones del panel",
-          category: "idea",
-          priority: "high",
-          createdAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-          updatedAt: new Date(Date.now() - 86400000 * 2).toISOString(),
-        },
-        {
-          id: "2",
-          title: "Agenda de reunión semanal del equipo",
-          content:
-            "- Actualizaciones de estado del proyecto\n- Discusión de bloqueadores\n- Planificación para el próximo sprint",
-          category: "meeting",
-          priority: "medium",
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          updatedAt: new Date(Date.now() - 86400000).toISOString(),
-        },
-        {
-          id: "3",
-          title: "Seguimiento con clientes",
-          content: "Necesito contactar:\n- ABC Corp sobre renovación de contrato\n- XYZ Inc sobre nuevos requisitos",
-          category: "todo",
-          priority: "high",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: "4",
-          title: "Objetivos de desarrollo personal",
-          content: "1. Completar curso avanzado de React\n2. Leer 'Código Limpio'\n3. Practicar TypeScript diariamente",
-          category: "personal",
-          priority: "low",
-          createdAt: new Date(Date.now() - 86400000 * 5).toISOString(),
-          updatedAt: new Date(Date.now() - 86400000 * 3).toISOString(),
-        },
-      ]
+    fetchNotes()
+  }, [category])
 
-      setNotes(demoNotes)
+  const fetchNotes = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+
+      let fetchedNotes: Note[]
+      if (category) {
+        fetchedNotes = await noteApi.getNotesByCategory(category)
+      } else {
+        fetchedNotes = await noteApi.getNotes()
+      }
+
+      setNotes(fetchedNotes)
+    } catch (err) {
+      setError("Error al cargar las notas. Por favor, intenta de nuevo.")
+      console.error("Error fetching notes:", err)
+    } finally {
       setLoading(false)
-    }, 1000)
-  }, [])
-
-  const handleNoteUpdate = (updatedNote: Note) => {
-    setNotes(notes.map((note) => (note.id === updatedNote.id ? updatedNote : note)))
+    }
   }
 
-  const handleNoteDelete = (noteId: string) => {
-    setNotes(notes.filter((note) => note.id !== noteId))
+  const handleNoteUpdate = async (updatedNote: Note) => {
+    try {
+      const updated = await noteApi.updateNote(updatedNote.id, updatedNote)
+      setNotes(notes.map((note) => (note.id === updated.id ? updated : note)))
+    } catch (err) {
+      setError("Error al actualizar la nota.")
+      console.error("Error updating note:", err)
+    }
+  }
+
+  const handleNoteDelete = async (noteId: string) => {
+    try {
+      await noteApi.deleteNote(noteId)
+      setNotes(notes.filter((note) => note.id !== noteId))
+    } catch (err) {
+      setError("Error al eliminar la nota.")
+      console.error("Error deleting note:", err)
+    }
   }
 
   const clearFilters = () => {
@@ -121,6 +112,15 @@ export function NotesList({ category }: NotesListProps) {
           </div>
         ))}
       </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
     )
   }
 

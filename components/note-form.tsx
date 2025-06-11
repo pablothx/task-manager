@@ -4,13 +4,14 @@ import type React from "react"
 
 import { useState } from "react"
 import type { Note } from "@/lib/types"
+import { noteApi } from "@/lib/api"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Flag } from "lucide-react"
+import { Flag, AlertCircle } from "lucide-react"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface NoteFormProps {
   note?: Note
@@ -39,22 +41,37 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
   const [category, setCategory] = useState(note?.category || "todo")
   const [priority, setPriority] = useState(note?.priority || "medium")
   const [showCancelAlert, setShowCancelAlert] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    setError(null)
 
-    const now = new Date().toISOString()
-    const updatedNote: Note = {
-      id: note?.id || Date.now().toString(),
-      title,
-      content,
-      category,
-      priority,
-      createdAt: note?.createdAt || now,
-      updatedAt: now,
+    try {
+      const noteData = {
+        title,
+        content,
+        category,
+        priority,
+      }
+
+      let savedNote: Note
+      if (isNewNote) {
+        savedNote = await noteApi.createNote(noteData)
+      } else {
+        savedNote = await noteApi.updateNote(note!.id, noteData)
+      }
+
+      onSave(savedNote)
+      onOpenChange(false)
+    } catch (err) {
+      setError(isNewNote ? "Error al crear la nota." : "Error al actualizar la nota.")
+      console.error("Error saving note:", err)
+    } finally {
+      setLoading(false)
     }
-
-    onSave(updatedNote)
   }
 
   const handleCancel = () => {
@@ -75,6 +92,13 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
           <DialogHeader>
             <DialogTitle>{isNewNote ? "Crear Nueva Nota" : "Editar Nota"}</DialogTitle>
           </DialogHeader>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="space-y-2">
@@ -148,10 +172,12 @@ export function NoteForm({ note, open, onOpenChange, onSave }: NoteFormProps) {
             </div>
 
             <DialogFooter className="flex justify-between">
-              <Button type="button" variant="outline" onClick={handleCancel}>
+              <Button type="button" variant="outline" onClick={handleCancel} disabled={loading}>
                 Cancelar
               </Button>
-              <Button type="submit">{isNewNote ? "Crear Nota" : "Guardar Cambios"}</Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Guardando..." : isNewNote ? "Crear Nota" : "Guardar Cambios"}
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

@@ -6,72 +6,67 @@ import { Button } from "@/components/ui/button"
 import { UserCard } from "@/components/user-card"
 import { UserForm } from "@/components/user-form"
 import { TaskAssignment } from "@/components/task-assignment"
-import { Plus, Home } from "lucide-react"
+import { Plus, Home, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import type { User } from "@/lib/types"
+import { userApi } from "@/lib/api"
 import { Navigation } from "@/components/navigation"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([])
   const [showUserForm, setShowUserForm] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Simulate fetching users from an API
-    setTimeout(() => {
-      const demoUsers: User[] = [
-        {
-          id: "1",
-          name: "Juan Pérez",
-          email: "juan.perez@ejemplo.com",
-          role: "admin",
-          avatar: null,
-          department: "Ingeniería",
-          position: "Desarrollador Senior",
-        },
-        {
-          id: "2",
-          name: "María García",
-          email: "maria.garcia@ejemplo.com",
-          role: "manager",
-          avatar: null,
-          department: "Marketing",
-          position: "Gerente de Marketing",
-        },
-        {
-          id: "3",
-          name: "Roberto Rodríguez",
-          email: "roberto.rodriguez@ejemplo.com",
-          role: "user",
-          avatar: null,
-          department: "Ventas",
-          position: "Representante de Ventas",
-        },
-      ]
-      setUsers(demoUsers)
-      setLoading(false)
-    }, 1000)
+    fetchUsers()
   }, [])
 
-  const handleUserSave = (user: User) => {
-    // Check if user already exists
-    const existingUserIndex = users.findIndex((u) => u.id === user.id)
-
-    if (existingUserIndex >= 0) {
-      // Update existing user
-      const updatedUsers = [...users]
-      updatedUsers[existingUserIndex] = user
-      setUsers(updatedUsers)
-    } else {
-      // Add new user
-      setUsers([...users, user])
+  const fetchUsers = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      const fetchedUsers = await userApi.getUsers()
+      setUsers(fetchedUsers)
+    } catch (err) {
+      setError("Error al cargar los usuarios. Por favor, intenta de nuevo.")
+      console.error("Error fetching users:", err)
+    } finally {
+      setLoading(false)
     }
-
-    setShowUserForm(false)
   }
 
-  const handleUserDelete = (userId: string) => {
-    setUsers(users.filter((user) => user.id !== userId))
+  const handleUserSave = async (user: User) => {
+    try {
+      // Check if user already exists
+      const existingUserIndex = users.findIndex((u) => u.id === user.id)
+
+      if (existingUserIndex >= 0) {
+        // Update existing user
+        const updatedUsers = [...users]
+        updatedUsers[existingUserIndex] = user
+        setUsers(updatedUsers)
+      } else {
+        // Add new user
+        setUsers([...users, user])
+      }
+
+      setShowUserForm(false)
+    } catch (err) {
+      setError("Error al guardar el usuario.")
+      console.error("Error saving user:", err)
+    }
+  }
+
+  const handleUserDelete = async (userId: string) => {
+    try {
+      await userApi.deleteUser(userId)
+      setUsers(users.filter((user) => user.id !== userId))
+    } catch (err) {
+      setError("Error al eliminar el usuario.")
+      console.error("Error deleting user:", err)
+    }
   }
 
   const handleAssignTask = (taskId: string, userId: string) => {
@@ -92,6 +87,13 @@ export default function AdminPage() {
           <h1 className="text-2xl font-bold">Panel de Administración</h1>
         </div>
       </div>
+
+      {error && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
       <Tabs defaultValue="users">
         <TabsList className="grid w-full grid-cols-2 mb-8">

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import type { Note } from "@/lib/types"
+import { noteApi } from "@/lib/api"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -28,6 +29,7 @@ interface NoteCardProps {
 export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
   const [showEditDialog, setShowEditDialog] = useState(false)
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const getCategoryBadge = (category: string) => {
     switch (category) {
@@ -63,9 +65,30 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
     setShowDeleteAlert(true)
   }
 
-  const confirmDelete = () => {
-    onDelete(note.id)
-    setShowDeleteAlert(false)
+  const confirmDelete = async () => {
+    try {
+      setLoading(true)
+      await noteApi.deleteNote(note.id)
+      onDelete(note.id)
+      setShowDeleteAlert(false)
+    } catch (error) {
+      console.error("Error deleting note:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleNoteUpdate = async (updatedNote: Note) => {
+    try {
+      setLoading(true)
+      const savedNote = await noteApi.updateNote(updatedNote.id, updatedNote)
+      onUpdate(savedNote)
+      setShowEditDialog(false)
+    } catch (error) {
+      console.error("Error updating note:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -77,7 +100,7 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
             : note.priority === "medium"
               ? "border-l-priority-medium"
               : "border-l-priority-low"
-        }`}
+        } ${loading ? "opacity-50 pointer-events-none" : ""}`}
       >
         <CardContent className="p-4">
           <div className="flex justify-between items-start mb-2">
@@ -98,11 +121,11 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
           </div>
 
           <div className="flex space-x-2">
-            <Button variant="ghost" size="sm" onClick={() => setShowEditDialog(true)}>
+            <Button variant="ghost" size="sm" onClick={() => setShowEditDialog(true)} disabled={loading}>
               <Edit className="h-3.5 w-3.5 mr-1" />
               Editar
             </Button>
-            <Button variant="ghost" size="sm" className="text-red-500" onClick={handleDelete}>
+            <Button variant="ghost" size="sm" className="text-red-500" onClick={handleDelete} disabled={loading}>
               <Trash2 className="h-3.5 w-3.5 mr-1" />
               Eliminar
             </Button>
@@ -110,7 +133,7 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         </CardFooter>
       </Card>
 
-      <NoteForm note={note} open={showEditDialog} onOpenChange={setShowEditDialog} onSave={onUpdate} />
+      <NoteForm note={note} open={showEditDialog} onOpenChange={setShowEditDialog} onSave={handleNoteUpdate} />
 
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
@@ -121,9 +144,9 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-500 hover:bg-red-600">
-              Eliminar
+            <AlertDialogCancel disabled={loading}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-500 hover:bg-red-600" disabled={loading}>
+              {loading ? "Eliminando..." : "Eliminar"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

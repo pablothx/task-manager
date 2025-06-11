@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import type { Task, User } from "@/lib/types"
+import { taskApi, userApi } from "@/lib/api"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,7 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
-import { CalendarIcon, X, Upload, CheckCircle, ArrowRightCircle, Flag, Clock } from "lucide-react"
+import { CalendarIcon, X, Upload, CheckCircle, ArrowRightCircle, Flag, Clock, AlertCircle } from "lucide-react"
 import Image from "next/image"
 import {
   AlertDialog,
@@ -26,6 +27,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface TaskDialogProps {
   task?: Task
@@ -48,6 +50,8 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
   const [calendarOpen, setCalendarOpen] = useState(false)
   const [showCancelAlert, setShowCancelAlert] = useState(false)
   const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -65,55 +69,52 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
   }, [task])
 
   useEffect(() => {
-    // Simulate fetching users from an API
-    const demoUsers: User[] = [
-      {
-        id: "1",
-        name: "Juan Pérez",
-        email: "juan.perez@ejemplo.com",
-        role: "admin",
-        avatar: null,
-        department: "Ingeniería",
-        position: "Desarrollador Senior",
-      },
-      {
-        id: "2",
-        name: "María García",
-        email: "maria.garcia@ejemplo.com",
-        role: "manager",
-        avatar: null,
-        department: "Marketing",
-        position: "Gerente de Marketing",
-      },
-      {
-        id: "3",
-        name: "Roberto Rodríguez",
-        email: "roberto.rodriguez@ejemplo.com",
-        role: "user",
-        avatar: null,
-        department: "Ventas",
-        position: "Representante de Ventas",
-      },
-    ]
-    setUsers(demoUsers)
-  }, [])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-
-    const updatedTask: Task = {
-      id: task?.id || Date.now().toString(),
-      title,
-      description,
-      status,
-      priority,
-      dueDate: dueDate?.toISOString() || null,
-      image,
-      assignedTo,
+    if (open) {
+      fetchUsers()
     }
+  }, [open])
 
-    onSave(updatedTask)
-    onOpenChange(false) // Close the dialog after saving
+  const fetchUsers = async () => {
+    try {
+      const fetchedUsers = await userApi.getUsers()
+      setUsers(fetchedUsers)
+    } catch (err) {
+      console.error("Error fetching users:", err)
+      setError("Error al cargar los usuarios.")
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError(null)
+
+    try {
+      const taskData = {
+        title,
+        description,
+        status,
+        priority,
+        dueDate: dueDate?.toISOString() || null,
+        image,
+        assignedTo,
+      }
+
+      let savedTask: Task
+      if (isNewTask) {
+        savedTask = await taskApi.createTask(taskData)
+      } else {
+        savedTask = await taskApi.updateTask(task!.id, taskData)
+      }
+
+      onSave(savedTask)
+      onOpenChange(false)
+    } catch (err) {
+      setError(isNewTask ? "Error al crear la tarea." : "Error al actualizar la tarea.")
+      console.error("Error saving task:", err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -165,6 +166,13 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
           <DialogHeader>
             <DialogTitle>{isNewTask ? "Crear Nueva Tarea" : "Editar Tarea"}</DialogTitle>
           </DialogHeader>
+
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-4 py-4">
             <div className="space-y-2">
@@ -292,7 +300,7 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
                   <SelectValue placeholder="Seleccionar usuario" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="unassigned">Sin asignar</SelectItem>
+                  <SelectItem value="none">Sin asignar</SelectItem>
                   {users.map((user) => (
                     <SelectItem key={user.id} value={user.id}>
                       {user.name} ({user.department})
@@ -365,14 +373,15 @@ export function TaskDialog({ task, open, onOpenChange, onSave }: TaskDialogProps
             </div>
 
             <DialogFooter className="flex justify-between mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
-              <Button type="button" variant="outline" onClick={handleCancel}>
+              <Button type="button" variant="outline" onClick={handleCancel} disabled={loading}>
                 Cancelar
               </Button>
               <Button
                 type="submit"
                 className="professional:bg-gradient-to-b professional:from-primary professional:to-primary/90"
+                disabled={loading}
               >
-                {isNewTask ? "Crear Tarea" : "Guardar Cambios"}
+                {loading ? "Guardando..." : isNewTask ? "Crear Tarea" : "Guardar Cambios"}
               </Button>
             </DialogFooter>
           </form>

@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import type { Task, User } from "@/lib/types"
+import { taskApi, userApi } from "@/lib/api"
 import { formatDistanceToNow } from "date-fns"
 import { Clock, CheckCircle2, ChevronRight, Flag } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -53,6 +54,7 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const [showDetailModal, setShowDetailModal] = useState(false)
   const [currentTask, setCurrentTask] = useState<Task>(task)
+  const [loading, setLoading] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
 
   // Obtener color de borde basado en el índice
@@ -66,53 +68,37 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
   }, [task])
 
   useEffect(() => {
-    // Simulate fetching user data
+    // Fetch user data if task is assigned
     if (currentTask.assignedTo) {
-      // In a real app, you would fetch this from your API
-      const demoUsers: User[] = [
-        {
-          id: "1",
-          name: "Juan Pérez",
-          email: "juan.perez@ejemplo.com",
-          role: "admin",
-          avatar: null,
-          department: "Ingeniería",
-          position: "Desarrollador Senior",
-        },
-        {
-          id: "2",
-          name: "María García",
-          email: "maria.garcia@ejemplo.com",
-          role: "manager",
-          avatar: null,
-          department: "Marketing",
-          position: "Gerente de Marketing",
-        },
-        {
-          id: "3",
-          name: "Roberto Rodríguez",
-          email: "roberto.rodriguez@ejemplo.com",
-          role: "user",
-          avatar: null,
-          department: "Ventas",
-          position: "Representante de Ventas",
-        },
-      ]
-
-      const user = demoUsers.find((u) => u.id === currentTask.assignedTo)
-      setAssignedUser(user || null)
+      fetchAssignedUser(currentTask.assignedTo)
     } else {
       setAssignedUser(null)
     }
   }, [currentTask.assignedTo])
 
-  const handleComplete = () => {
-    const updatedTask = {
-      ...currentTask,
-      status: "done",
+  const fetchAssignedUser = async (userId: string) => {
+    try {
+      const user = await userApi.getUser(userId)
+      setAssignedUser(user)
+    } catch (error) {
+      console.error("Error fetching assigned user:", error)
+      setAssignedUser(null)
     }
-    setCurrentTask(updatedTask)
-    onUpdate(updatedTask)
+  }
+
+  const handleComplete = async () => {
+    try {
+      setLoading(true)
+      const updatedTask = await taskApi.updateTask(currentTask.id, {
+        status: "done",
+      })
+      setCurrentTask(updatedTask)
+      onUpdate(updatedTask)
+    } catch (error) {
+      console.error("Error updating task:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleDeleteClick = (e: React.MouseEvent) => {
@@ -120,9 +106,17 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
     setShowDeleteAlert(true)
   }
 
-  const handleConfirmDelete = () => {
-    onDelete(currentTask.id)
-    setShowDeleteAlert(false)
+  const handleConfirmDelete = async () => {
+    try {
+      setLoading(true)
+      await taskApi.deleteTask(currentTask.id)
+      onDelete(currentTask.id)
+      setShowDeleteAlert(false)
+    } catch (error) {
+      console.error("Error deleting task:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleEditClick = (e: React.MouseEvent) => {
@@ -130,9 +124,17 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
     setShowDialog(true)
   }
 
-  const handleTaskUpdate = (updatedTask: Task) => {
-    setCurrentTask(updatedTask)
-    onUpdate(updatedTask)
+  const handleTaskUpdate = async (updatedTask: Task) => {
+    try {
+      setLoading(true)
+      const savedTask = await taskApi.updateTask(updatedTask.id, updatedTask)
+      setCurrentTask(savedTask)
+      onUpdate(savedTask)
+    } catch (error) {
+      console.error("Error updating task:", error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -286,6 +288,7 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
           getBorderColor(),
           getCardBorderClass(),
           currentTask.status === "done" ? "bg-slate-50/50 dark:bg-slate-800/50" : "bg-white dark:bg-slate-900",
+          loading ? "opacity-50 pointer-events-none" : "",
         )}
         onClick={handleCardClick}
         onTouchStart={handleTouchStart}
@@ -396,9 +399,9 @@ export function TaskCard({ task, onUpdate, onDelete, index }: TaskCardProps) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-500 hover:bg-red-600">
-              Eliminar
+            <AlertDialogCancel disabled={loading}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmDelete} className="bg-red-500 hover:bg-red-600" disabled={loading}>
+              {loading ? "Eliminando..." : "Eliminar"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
