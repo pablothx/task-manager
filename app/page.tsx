@@ -6,7 +6,6 @@ import { CreateTaskButton } from "@/components/create-task-button"
 import { Navigation } from "@/components/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTheme } from "@/components/theme-provider"
-import { HardcodedTaskList } from "@/components/hardcoded-task-list"
 
 export default function Home() {
   // In a real app, you would get the current user ID from authentication
@@ -23,16 +22,12 @@ export default function Home() {
         <TabsList className={`grid w-full grid-cols-3 ${isProfessional ? "professional-tabs" : ""}`}>
           <TabsTrigger value="my-tasks">Mis Tareas</TabsTrigger>
           <TabsTrigger value="all-tasks">Todas las Tareas</TabsTrigger>
-          <TabsTrigger value="hardcoded-tasks">Tareas Hardcoded</TabsTrigger>
         </TabsList>
         <TabsContent value="my-tasks">
           <TaskList assignedToUserId={currentUserId} showFilter={true} />
         </TabsContent>
         <TabsContent value="all-tasks" id="all-tasks">
           <TaskList showFilter={true} />
-        </TabsContent>
-        <TabsContent value="hardcoded-tasks">
-          <HardcodedTaskList />
         </TabsContent>
       </Tabs>
 
